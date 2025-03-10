@@ -39,12 +39,12 @@ class UfoSiteVectorStore:
         self.faq_collection = db.get_or_create_collection(name="faq", embedding_function=custom_embedding_function)
         if self.faq_collection.count() == 0:
             print("FAQ collection is empty, loading...")
-            self.load_collection(FAQ_FILE_PATH)
+            self._load_faq_collection(FAQ_FILE_PATH)
             print("collection loaded")
         else:
             print("FAQ collection already exists, skipping loading.")
 
-    def load_collection(self, faq_file_path: str):
+    def _load_faq_collection(self, faq_file_path: str):
         print("reading faq file...")
         with open(faq_file_path, "r") as f:
             faqs = json.load(f) 
