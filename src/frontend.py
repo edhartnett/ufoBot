@@ -1,5 +1,8 @@
 import streamlit as st
+from VectorStore import UfoSiteVectorStore
+
 st.set_page_config(page_title="UFO Bot", page_icon=":robot_face:")
+vector_store = UfoSiteVectorStore()
 
 if "message_history" not in st.session_state:
     st.session_state.message_history = [{"role": "assistant", "content": "I am a UFOologist. Tell me about your UFO sighting."}]
@@ -13,7 +16,9 @@ with left_col:
 with main_col:
     user_input = st.chat_input("Ask me anything about UFOs!")
     if user_input:
+        related_questions = vector_store.query_faqs(user_input)
         st.session_state.message_history.append({"role": "user", "content": user_input})
+        st.session_state.message_history.append({"role": "assistant", "content": related_questions})
 
     for i in range(1, len(st.session_state.message_history) + 1):
         this_message = st.session_state.message_history[-i]
