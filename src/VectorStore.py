@@ -93,7 +93,4 @@ class UfoSiteVectorStore:
             query_texts=[query],
             n_results=5
         )
-
-        )  
         
-
