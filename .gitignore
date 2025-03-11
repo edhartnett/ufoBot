@@ -172,3 +172,6 @@ cython_debug/
 
 chromadb/*
 chromadb
+chroma_db/*
+chroma_db  
+
