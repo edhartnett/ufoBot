@@ -12,11 +12,16 @@ left_col, main_col, right_col = st.columns([1,3,1])
 with left_col:
     if st.button("Clear Chat"):
         st.session_state.message_history = []
+    collection_choice = st.radio("Collection", ["FAQs", "Aliens"])
+    
 
 with main_col:
     user_input = st.chat_input("Ask me anything about UFOs!")
     if user_input:
-        related_questions = vector_store.query_faqs(user_input)
+        if collection_choice == "FAQs":
+            related_questions = vector_store.query_faqs(user_input)
+        else:
+            related_questions = vector_store.query_aliens(user_input)
         st.session_state.message_history.append({"role": "user", "content": user_input})
         st.session_state.message_history.append({"role": "assistant", "content": related_questions})
 
