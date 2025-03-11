@@ -8,3 +8,6 @@ langchain_core
 #wikipedia
 langchain-anthropic
 #langchain-google-genai
+llama-index>=0.9.27
+llama-index-embeddings-huggingface>=0.1.6
+torch>=2.1.0

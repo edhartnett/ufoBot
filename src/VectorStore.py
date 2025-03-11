@@ -6,6 +6,7 @@ import json
 MODEL_NAME = "NovaSearch/stella_en_1.5B_v5"
 DB_PATH = "./chroma_db"
 FAQ_FILE_PATH = "./faq.json"
+ALIENS_FILE_PATH = "./aliens.json"
 
 class QuestionAnswerPairs:
     def __init__(self, question: str, answer: str):
@@ -44,6 +45,15 @@ class UfoSiteVectorStore:
         else:
             print("FAQ collection already exists, skipping loading.")
 
+        print("creating collection for aliens...")
+        self.aliens_collection = db.get_or_create_collection(name="aliens", embedding_function=custom_embedding_function)
+        if self.aliens_collection.count() == 0:
+            print("Aliens collection is empty, loading...")
+            self._load_aliens_collection(ALIENS_FILE_PATH)
+            print("collection loaded")
+        else:
+            print("Aliens collection already exists, skipping loading.")
+
     def _load_faq_collection(self, faq_file_path: str):
         print("reading faq file...")
         with open(faq_file_path, "r") as f:
@@ -57,10 +67,29 @@ class UfoSiteVectorStore:
         )
         print("faqs have been added to collection.")
 
+    def _load_aliens_collection(self, aliens_file_path: str):
+        print("reading aliens file...")
+        with open(aliens_file_path, "r") as f:
+            aliens = json.load(f) 
+
+        print("adding aliens to collection..." + str(len(aliens)))
+        self.aliens_collection.add(
+            documents=[alien["details"] for alien in aliens],
+            ids=[str(i) for i in range(len(aliens))],
+            metadatas=aliens
+        )
+        print("aliens have been added to collection.")
+
     def query_faqs(self, query: str):
         return self.faq_collection.query(
             query_texts=[query],
             n_results=5
         )
 
+    def query_aliens(self, query: str):
+        return self.aliens_collection.query(
+            query_texts=[query],
+            n_results=5
+        )  
+        
 
