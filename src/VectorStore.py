@@ -27,10 +27,6 @@ class CustomEmbeddingClass(EmbeddingFunction):
     def __call__(self, input_texts: list[str]) -> Embeddings:
         return [self.embedding_model.get_text_embedding(text) for text in input_texts]
 
-
-
-
-
 class UfoSiteVectorStore:
     def __init__(self):
         print("creating db...")
@@ -90,6 +86,14 @@ class UfoSiteVectorStore:
         return self.aliens_collection.query(
             query_texts=[query],
             n_results=5
+        )
+
+    def query_aliens(self, query: str):
+        return self.aliens_collection.query(
+            query_texts=[query],
+            n_results=5
+        )
+
         )  
         
 
