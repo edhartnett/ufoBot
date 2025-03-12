@@ -1,10 +1,10 @@
-from langchain_core.tools import Tool
+from langchain_core.tools import tool
 from typing import List, Dict
 from VectorStore import UfoSiteVectorStore
 
 vector_store = UfoSiteVectorStore()
 
-@tool
+@tool(response_format="content_and_artifact")
 def query_ufo_faqs(query: str) -> List[Dict[str, str]]:
     '''
     Use this tool to get information about UFOs.
@@ -17,7 +17,7 @@ def query_ufo_faqs(query: str) -> List[Dict[str, str]]:
     '''
     return vector_store.query_faqs(query)
 
-@tool
+@tool(response_format="content_and_artifact")
 def query_aliens(query: str) -> List[Dict[str, str]]:
     '''
     Use this tool to get information about aliens.

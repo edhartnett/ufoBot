@@ -30,7 +30,7 @@ with main_col:
         # else:
         #     related_questions = vector_store.query_aliens(user_input)
         st.session_state.message_history.append(HumanMessage(content=user_input))
-        response = app.invoke({"messages": st.session_state.message_history})
+        response = app.invoke(list(st.session_state.message_history))
         st.session_state.message_history = response["messages"]
 
     for i in range(1, len(st.session_state.message_history) + 1):
